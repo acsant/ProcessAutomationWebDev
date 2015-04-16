@@ -1,0 +1,31 @@
+<!doctype html>
+<html ng-app = "jBPMRest">
+	<head>
+		<title>User Authentication</title>
+		<link rel="stylesheet" type="text/css" href="/static/css/style.css">
+	</head>
+	<body>
+		<div class="form-container" ng-controller="AuthenticationController">
+			<p class="form-header">Task List</p>
+			<!--<li ng-repeat="task in tasks">
+				<a href="">{{task.taskSummary.name}} - {{task.taskSummary['actual-owner']}}</a>
+			</li>-->
+			<div class="innerDiv">
+				<li ng-if="task.taskSummary.status != 'Exited'" ng-repeat="task in taskList">
+					<form method="POST" action="/startTask">
+						<label ng-model="task">{{task.taskSummary.description}} - {{task.taskSummary['actual-owner']}} ( Status: {{task.taskSummary.status}} )</label>
+						<input type="hidden" name="taskId" value="{{task.taskSummary.id}}">
+						<input type="submit" value="Start">
+					</form>
+				</li>
+			</div>
+		</div>
+		<div class="logout">
+			<form method="GET" action="/logout">
+				<input type="submit" value="logout">
+			</form>
+		</div>
+		<script src="http://code.angularjs.org/1.2.9/angular.min.js"></script>
+		<script src="/static/js/authService.js"></script>
+	</body>
+</html>
