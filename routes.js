@@ -27,6 +27,14 @@ module.exports = function (app) {
 			res.redirect('/login');
 		});
 	});
+	app.get('/create', function (req, res) {
+		if (req.session.taskList) {
+			res.render('create_task');
+		} else {
+			res.redirect('/login');
+		}
+	});
+	app.post('/createTask', user.createTask);
 	app.post('/login', user.login);
 	app.post('/getTaskList', user.getTaskList);
 	app.post('/startTask', user.startTask);

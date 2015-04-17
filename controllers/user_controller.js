@@ -28,6 +28,7 @@ function sendAuthenticationResponse (req, toRet, res) {
 			req.session.taskList = JSON.parse(newToRet).taskSummaryList;
 			req.session.username = username;
 			req.session.password = password;
+			console.log(JSON.parse(newToRet).taskSummaryList);
 			res.json(JSON.parse(newToRet).taskSummaryList);
 		});
 	}
@@ -35,10 +36,7 @@ function sendAuthenticationResponse (req, toRet, res) {
 }
 
 exports.login = function (req, res) {
-	console.log('Post login is called');
-	console.log(req.body.username);
 	if (req.body.username) {
-		console.log(req.body.username);
 		req.session.regenerate(function () {
 			req.session.username = req.body.username;
 			req.session.password = req.body.password;
@@ -48,10 +46,8 @@ exports.login = function (req, res) {
 }
 
 exports.getTaskList = function(req, res) {
-	console.log('Controller is called');
 	username = req.session.username;
 	password = req.session.password;
-	console.log(username);
 	var options = {
     host: 'localhost',
     port: 8080,
@@ -73,7 +69,6 @@ exports.startTask = function (req, res) {
 	username = req.session.username;
 	password = req.session.password;
     var id = req.body.taskId;
-    console.log(id);
 	var options = {
 		host: 'localhost',
 		port: 8080,
@@ -90,15 +85,41 @@ exports.startTask = function (req, res) {
 		response.on('data', function (chunk) {
 			resData += chunk;
 		});
-		console.log(response.statusCode);
-		console.dir(response);
-		console.log(username);
-		console.log(password);
-		console.log(id);
-		console.log(response.statusMessage);
 		var taskList = req.session.taskList;
 		res.redirect('/');
 		
 	}).end();
 	
+ }
+
+ exports.createTask = function (req, res) {
+ 	username = req.session.username;
+ 	password = req.session.password;
+ 	var employeeName = req.body.employee;
+ 	var reqReason = req.body.reason;
+ 	var postData = qstring.stringify({
+ 		'map_reason': reqReason,
+ 		'map_employee': employeeName
+ 	});
+ 	var options = {
+		host: 'localhost',
+		port: 8080,
+		path: '/jbpm-console/rest/runtime/org.jbpm:Evaluation:1.0/withvars/process/evaluation/start',
+		method: 'POST',
+		headers: {
+			'Authorization': 'Basic ' + new Buffer(username + ':' + password).toString('base64'),
+			'Content-Type': 'application/x-www-form-urlencoded',
+          	'Content-Length': postData.length,
+          	'Accept': 'application/json'
+
+		}
+	};
+	var request = http.request(options, function (response) {
+		response.setEncoding('utf8');
+		if (response.statusCode == 200) {
+			res.redirect('/');
+		}
+	});
+	request.write(postData);
+	request.end();
  }

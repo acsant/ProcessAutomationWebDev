@@ -1,7 +1,7 @@
 <!doctype html>
 <html ng-app = "jBPMRest">
 	<head>
-		<title>User Authentication</title>
+		<title>Task List</title>
 		<link rel="stylesheet" type="text/css" href="/static/css/style.css">
 	</head>
 	<body>
@@ -20,11 +20,15 @@
 				</li>
 			</div>
 		</div>
-		<div class="logout">
-			<form method="GET" action="/logout">
+		<form method="GET" action="/logout">
+			<div class="authOptions">
+			<!--<form method="GET" action="/logout">
 				<input type="submit" value="logout">
-			</form>
-		</div>
+			</form>-->
+				<a href="/create">Create New Case</a>
+				<input type="submit" value="Logout">
+			</div>
+		</form>
 		<script src="http://code.angularjs.org/1.2.9/angular.min.js"></script>
 		<script src="/static/js/authService.js"></script>
 	</body>

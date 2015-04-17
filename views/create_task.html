@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Case Creation</title>
+		<link rel="stylesheet" type="text/css" href="/static/css/style.css">
+	</head>
+	<body>
+		<div class="form-container">
+			<p class="form-header">Create Task</p>
+			<div class="innerDiv">
+				<form method="POST" action="/createTask">
+					<label>Employee: </label>
+					<input type="text" name="employee">
+					<label>Reason: </label>
+					<input type="text" name="reason">
+					<input type="submit" value="Submit">
+				</form>
+			</div>
+		</div>
+		<div class="authOptions">
+			<a href="/">Cancel</a>
+		</div>
+		<script src="http://code.angularjs.org/1.2.9/angular.min.js"></script>
+		<script src="/static/js/authService.js"></script>
+	</body>
+</html>
