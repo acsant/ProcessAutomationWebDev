@@ -33,6 +33,7 @@ function parseResponse(req, authResponse, res) {
 function sendAuthenticationResponse (req, toRet, res) {
 	var newToRet = toRet.replace(/task-summary/g, 'taskSummary');
 	if (newToRet) {
+		console.log(newToRet);
 		req.session.regenerate(function() {
 			req.session.taskList = JSON.parse(newToRet).taskSummaryList;
 			req.session.username = username;
